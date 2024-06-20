@@ -1,0 +1,51 @@
+Order expression -> logical -> bitwise -> equality -> relational -> shift -> additive -> multiplictive -> unary -> atom
+expression = logical
+
+logical = bitwise (LOGICAL_AND bitwise)*
+        | bitwise (LOGICAL_OR bitwise)*
+
+bitwise = equality (BITWISE_AND equality)*
+        | equality (BITWISE_OR equality)*
+        | equality (BITWISE_XOR equality)*
+
+equality = relational (EQUAL relational)*
+        | relational (NOT_EQUAL relational)*
+
+relational = shift (GREATER_THAN shift)*
+        | shift (LESS_THAN shift)*
+        | shift (GREATER_THAN_EQUAL shift)*
+        | shift (LESS_THAN shift)*
+
+shift = additive (RIGHT_SHIFT additive)*
+        | additive (LEFT_SHFIT additive)*
+
+additive = multiplictive (PLUS multiplictive)*
+        | multiplictive (MINUS multiplictive)*
+
+multiplictive = unary (MULTIPLY unary)*
+            | unary (DIVIDE unary)*
+            | unary (EXPONENT unary)*
+            | unary (MODULO unary)*
+
+unary = (BITWISE_NOT atom)*
+    | (LOGICAL_NOT atom)*
+    | atom
+
+atom = INTEGER_LITERAL
+    | FLOAT_LITERAL
+    | STRING_LITERAL
+    | BOOLEAN_LITERAL
+    | R_VALUE LEFT_PARENTHESIS expression COMMA expression RIGHT_PARENTHESIS
+    | L_VALUE LEFT_PARENTHESIS expression COMMA expression RIGHT_PARENTHESIS
+    | MAX LEFT_PARENTHESIS expression COMMA expression RIGHT_PARENTHESIS
+    | MIN LEFT_PARENTHESIS expression COMMA expression RIGHT_PARENTHESIS
+    | MEAN LEFT_PARENTHESIS expression COMMA expression RIGHT_PARENTHESIS
+    | SUM LEFT_PARENTHESIS expression COMMA expression RIGHT_PARENTHESIS
+    | INT LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+    | FLOAT LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+    | LEFT_PARENTHESIS expression RIGHT_PARENTHESIS
+    | LEFT_BRACKET (expression)* RIGHT_BRACKET
+    | IF LEFT_PARENTHESIS expression RIGHT_PARENTHESIS expression ELSE expression END
+    | FOR STRING_LITERAL IN expression expression expression END
+    | ASSIGN STRING_LITERAL ASSIGNMENT expression
+    | REF STRING_LITERAL
